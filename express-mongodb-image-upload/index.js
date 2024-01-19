@@ -1,11 +1,23 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const multer = require('multer');
+import express from 'express';
+import mongoose from "mongoose";
+import multer from "multer";
+import cors from "cors";
+
 const app = express();
 const port = 3001;
+import imagesRoute from './routes/images.js';
+
+// Enable CORS
+app.use(cors());
+
+
 
 // MongoDB connection
 mongoose.connect('mongodb+srv://ayacheyassine2000:CwMhkRmGplPQHtCU@cluster0.0qj6qfr.mongodb.net/?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
+
+// Use the images route
+app.use(imagesRoute);
+
 
 // Multer configuration
 const storage = multer.diskStorage({
@@ -35,25 +47,26 @@ app.post('/upload', upload.single('image'), (req, res) => {
 });
 
 // Express route to fetch image URLs from MongoDB using Mongoose
-app.get('/api/images', async (req, res) => {
-    try {
-        // Use Mongoose connection to get the database
-        const db = mongoose.connection;
+// app.get('/api/images', async (req, res) => {
+//     try {
+//         // Use Mongoose connection to get the database
+//         const db = mongoose.connection;
 
-        // Use Mongoose connection to get the collection
-        const collection = db.collection('test');
+//         // Use Mongoose connection to get the collection
+//         const collection = db.collection('test');
 
-        // Query image URLs from MongoDB
-        // const images = await collection.find();
-        const images = await collection.find({}, { projection: { path: 1 } }).toArray();
+//         // Query image URLs from MongoDB
+//         // const images = await collection.find();
+//         const images = await collection.find({}, { projection: { path: 1 } }).toArray();
         
-        res.json(images);
-    } catch (error) {
-        console.error('Error fetching image URLs from MongoDB:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-});
+//         res.json(images);
+//     } catch (error) {
+//         console.error('Error fetching image URLs from MongoDB:', error);
+//         res.status(500).json({ error: 'Internal Server Error' });
+//     }
+// });
 
+// app.use("/api/images", usersRoute);
 
 
 app.listen(port, () => {

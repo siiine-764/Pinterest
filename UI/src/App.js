@@ -3,9 +3,11 @@ import { Add, Chat, FavoriteRounded, Notifications, Person, QuestionMark } from 
 import Pin from './components/Pin';
 import './App.css';
 import MenuContainer from './components/MenuContainer';
+
 import Data from "./components/Data";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+
 
 function App() {
 
@@ -17,6 +19,16 @@ function App() {
       .then(response => setImages(response.data))
       .catch(error => console.error('Error fetching images:', error));
   }, []);
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:3001/api/images') // Adjust the URL based on your backend routes
+      .then(response => response.json())
+      .then(data => setData(data))
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
+
 
 
 //   useEffect(() =>{
@@ -78,13 +90,20 @@ function App() {
       <h1>Images from MongoDB</h1>
       <div>
         {images.map(image => (
-          <img key={image._id} src={image.imageUrl} alt={`Image ${image._id}`} />
+          <img key={image._id} src={image.name} alt={`Image ${image._id}`} />
         ))}
       </div>
-    </div>
 
 
+<div>
+      {data.map(item => (
+        <img key={item._id} src={item.name} alt={`Image ${item._id}`} />
+        // <div key={item._id}>{item.name}</div>
+      ))}
     </div>
+
+    </div>
+</div>
   );
 }
 

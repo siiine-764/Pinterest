@@ -1,23 +1,34 @@
 
 import { Add, Chat, FavoriteRounded, Notifications, Person, QuestionMark } from '@mui/icons-material';
 import Pin from './components/Pin';
-import { useEffect } from 'react';
 import './App.css';
 import MenuContainer from './components/MenuContainer';
 import Data from "./components/Data";
-
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 function App() {
-  useEffect(() =>{
-    const allIcon = document.querySelectorAll(".iconContainer");
+
+  const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    // Fetch image URLs from your backend API
+    axios.get('/api/images')
+      .then(response => setImages(response.data))
+      .catch(error => console.error('Error fetching images:', error));
+  }, []);
+
+
+//   useEffect(() =>{
+//     const allIcon = document.querySelectorAll(".iconContainer");
     
-    function setMenuActive(){
-      allIcon.forEach((n) => n.classList.remove("active"));
-      this.classList.add("active");
-    }
-    allIcon.forEach((n)=> n.addEventListener("click",setMenuActive));
+//     function setMenuActive(){
+//       allIcon.forEach((n) => n.classList.remove("active"));
+//       this.classList.add("active");
+//     }
+//     allIcon.forEach((n)=> n.addEventListener("click",setMenuActive));
  
-}, []);
+// }, []);
   return (
     <div className="App">
       <div className="menuContainer">
@@ -61,21 +72,18 @@ function App() {
             name={data.name} 
             link={data.link} />)}
           
-          {/* <Pin pinSize ={'medium'}/>
-          <Pin pinSize ={'large'}/>
-          <Pin pinSize ={'large'}/>
-          <Pin pinSize ={'medium'}/>
-          <Pin pinSize ={'small'}/>
-          <Pin pinSize ={'small'}/>
-          <Pin pinSize ={'medium'}/>
-          <Pin pinSize ={'large'}/>
-          <Pin pinSize ={'large'}/>
-          <Pin pinSize ={'medium'}/>
-          <Pin pinSize ={'small'}/> */}
-          
         </div>
       </main>
-      
+        <div>
+      <h1>Images from MongoDB</h1>
+      <div>
+        {images.map(image => (
+          <img key={image._id} src={image.imageUrl} alt={`Image ${image._id}`} />
+        ))}
+      </div>
+    </div>
+
+
     </div>
   );
 }

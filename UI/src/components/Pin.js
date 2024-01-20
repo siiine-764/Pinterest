@@ -1,26 +1,17 @@
 import React from 'react'
+import './Pin.css';
 
-function Pin({pinSize,imgSrc,name,link}) {
+const Pin = ({ data }) => {
   return (
-    <div className={`pin ${pinSize}`}>
-        <img className="mainPic" src={imgSrc} alt="mainphoto" />
-
-        <div className="content">
-            <h3>{name}</h3>
-
-
-            <div className="imagesearch">
-              <a href={link}>
-              
-            <img src="https://cdn.w600.comps.canstockphoto.com/right-arrow-flat-pink-icon-stock-image_csp40130369.jpg" alt="rightArrow" className="searchArrow"></img>
-
-              </a>
-            
-          </div>
-
-        </div>
+    <div className="gallery">
+      {data.map(item => (
+          <img src={item.name} alt={`Image ${item._id}`} />
+      ))}
     </div>
   );
-}
+};
+
+
+
 
 export default Pin;

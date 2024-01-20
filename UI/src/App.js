@@ -4,7 +4,6 @@ import Pin from './components/Pin';
 import './App.css';
 import MenuContainer from './components/MenuContainer';
 
-import Data from "./components/Data";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -74,37 +73,13 @@ function App() {
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKIZUMg9MvWTk2HyVE8FJMtIcJAcNZNoZRP3kvag2yW4qHOxMvo51vmgMbQY6j2JB12Ug&usqp=CAU" alt="rightArrow" className="searchArrow"></img>
           </div>
         </div>
-        <div className="mainContainer">
-
-          {
-            Data && Data.map((data) => <Pin 
-            key={data.id} 
-            pinSize ={data.size} 
-            imgSrc={data.imgSrc} 
-            name={data.name} 
-            link={data.link} />)}
-          
-        </div>
+              <Pin data={data} />
       </main>
-        <div>
-      <h1>Images from MongoDB</h1>
-      <div>
-        {images.map(image => (
-          <img key={image._id} src={image.name} alt={`Image ${image._id}`} />
-        ))}
-      </div>
 
-
-<div>
-      {data.map(item => (
-        <img key={item._id} src={item.name} alt={`Image ${item._id}`} />
-        // <div key={item._id}>{item.name}</div>
-      ))}
-    </div>
-
-    </div>
+      
 </div>
   );
 }
 
 export default App;
+

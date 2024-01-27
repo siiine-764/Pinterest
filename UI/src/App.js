@@ -3,6 +3,7 @@ import { Add, Chat, FavoriteRounded, Notifications, Person, QuestionMark } from 
 import Pin from './components/Pin';
 import './App.css';
 import MenuContainer from './components/MenuContainer';
+import Login from './components/Login';
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -75,8 +76,7 @@ function App() {
         </div>
               <Pin data={data} />
       </main>
-
-      
+      <Login />
 </div>
   );
 }

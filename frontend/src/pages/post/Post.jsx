@@ -1,30 +1,52 @@
 // ImageUpload.js
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import axios from 'axios'; // Import axios for making HTTP requests
+import Navigation from '../../components/Navigation'
 
 function Post() {
-  const [selectedImage, setSelectedImage] = useState(null);
+    const [selectedFile, setSelectedFile] = useState(null);
+    const navigate = useNavigate();
 
-  const handleImageChange = (event) => {
-    // Handle image selection
-    const file = event.target.files[0];
-    setSelectedImage(file);
-  };
+    // Handler for file input change
+    const handleFileChange = (event) => {
+        setSelectedFile(event.target.files[0]);
+    };
 
-  const handleUpload = () => {
-    // Handle image upload logic
-    if (selectedImage) {
-      // Implement your image upload logic here
-      console.log('Uploading image:', selectedImage);
-    }
-  };
+    // Handler for form submission
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        
+        // Create a FormData object to store the file
+        const formData = new FormData();
+        formData.append('image', selectedFile);
 
-  return (
-    <div>
-      <h2>Image Upload Page</h2>
-      <input type="file" onChange={handleImageChange} />
-      <button onClick={handleUpload}>Upload Image</button>
-    </div>
-  );
+        try {
+            // Make a POST request to upload the file
+            const response = await axios.post('http://localhost:3001/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            console.log('File uploaded successfully:', response.data);
+            navigate("/");
+             // Redirect to home page after successful upload
+        } catch (error) {
+            console.error('Error uploading file:', error);
+        }
+    };
+
+    return (
+        <div>
+          <Navigation />
+            <form onSubmit={handleSubmit} encType="multipart/form-data">
+                <input type="file" name="image" accept="image/*" onChange={handleFileChange} />
+                <button type="submit">Upload Image</button>
+            </form>
+        </div>
+    );
 }
+
+
 
 export default Post;

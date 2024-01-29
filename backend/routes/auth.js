@@ -1,6 +1,6 @@
 // auth.js (backend/routes)
 import express from 'express';
-import { registerUser, loginUser  } from "../controllers/authController.js";
+import { registerUser, loginUser, getUsers  } from "../controllers/authController.js";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 const router = express.Router();
@@ -9,7 +9,7 @@ const router = express.Router();
 // Register route
 router.post('/register',  registerUser);
 router.post('/login',  loginUser);
-  
+router.get('/users', getUsers);
 
 // // Login route
 // router.post('/login', async (req, res) => {

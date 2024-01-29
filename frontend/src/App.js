@@ -1,10 +1,12 @@
 
-import { Add, Chat, FavoriteRounded, Notifications, Person, QuestionMark } from '@mui/icons-material';
-import Pin from './components/Pin';
+// import { Add, Chat, FavoriteRounded, Notifications, Person, QuestionMark } from '@mui/icons-material';
+// import Pin from './components/Pin';
 import './App.css';
-import MenuContainer from './components/MenuContainer';
+// import MenuContainer from './components/MenuContainer';
 import Login from './pages/login/Login';
+import Register from './pages/login/Register';
 import Post from './pages/post/Post';
+import Home from './pages/home/Home';
 // Example using BrowserRouter
 
 import {
@@ -54,7 +56,7 @@ function App() {
 
 
     
-      <div className="menuContainer">
+      {/* <div className="menuContainer">
       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoEjYfBnTQ5_GXIDZlOvqD_hirQ2o2GW30UrXODXNh&s" alt="logo" className='logo'></img>
       
       <div className="subMenu">
@@ -75,9 +77,9 @@ function App() {
          
         </div>
         </div>
-      </div>
+      </div> */}
       
-      <main>
+      {/* <main> */}
         {/* <div className="searchBox">
           <input type="text" placeholder="Search.."/>
           <div className="search">
@@ -85,17 +87,19 @@ function App() {
           </div>
         </div> */}
         
+        {/* <Pin data={data} /> */}
+      {/* </main> */}
         <div>
-          <p>efdrfsseagdsrgbsed</p>
           <BrowserRouter>
         <Routes>
+              {/* <Route path="/" element={<Home />} data={data} /> */}
+              <Route path="/" element={<Home data={data} />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
               <Route path="/upload" element={<Post />} />
         </Routes>
       </BrowserRouter>
         </div>
-        <Pin data={data} />
-      </main>
 
 
 </div>

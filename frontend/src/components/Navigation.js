@@ -2,9 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-function Navigation() {
+function Navigation(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track authentication status
-
   useEffect(() => {
       // Check authentication status when the component mounts
       const token = localStorage.getItem('token'); // Assuming you store the authentication token in localStorage

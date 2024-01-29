@@ -20,7 +20,12 @@ const Login = () => {
           });
 
           const data = await response.json();
-          // navigate("/");
+          if (response.status  === 400) {
+            alert("Invalid credentials password or user");
+          }
+          else
+            navigate("/");
+          
           // console.log(response.json());
           console.log(data); // Handle response from the server
       } catch (error) {

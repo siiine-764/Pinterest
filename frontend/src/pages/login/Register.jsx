@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import Navigation from '../../components/Navigation'
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -18,6 +20,11 @@ const Register = () => {
             });
             
             const data = await response.json();
+            if (response.status  === 400) {
+                alert("Invalid credentials password or user");
+            }
+            else
+                navigate("/");
             console.log(data); // Handle response from the server
         } catch (error) {
             console.error('Error registering user:', error);

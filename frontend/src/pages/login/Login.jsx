@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import Navigation from '../../components/Navigation'
 import { useNavigate } from "react-router-dom";
+import { useAuth } from '../../contexts/AuthContext';
+import Cookies from 'js-cookie';
 
 const Login = () => {
+    const { dispatch } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
@@ -20,6 +23,14 @@ const Login = () => {
           });
 
           const data = await response.json();
+          const user = { email: email};
+          // console.log(data);
+            // Dispatch user data to the context
+            dispatch({ type: 'LOGIN', payload: user });
+            // Set a cookie (for example, userToken)
+            Cookies.set('userToken', 'MWEaGTQrGDTUHKw6DchMOLySANrH0zndt8QdKUsbdZg=', { expires: 7, SameSite: 'None', Secure: true}); // expires in 7 days
+          // Store user data in localStorage for persistence
+          localStorage.setItem('user', JSON.stringify(data));
           if (response.status  === 400) {
             alert("Invalid credentials password or user");
           }

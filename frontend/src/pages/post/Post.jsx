@@ -1,48 +1,46 @@
 // ImageUpload.js
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import axios from 'axios'; // Import axios for making HTTP requests
+// import axios from 'axios'; // Import axios for making HTTP requests
 import Navigation from '../../components/Navigation'
 
-function Post() {
-    const [selectedFile, setSelectedFile] = useState(null);
+const Post = () => {
+    const [title, setTitle] = useState('');
+    const [image, setImage] = useState('');
     const navigate = useNavigate();
 
-    // Handler for file input change
-    const handleFileChange = (event) => {
-        setSelectedFile(event.target.files[0]);
-    };
-
-    // Handler for form submission
     const handleSubmit = async (event) => {
         event.preventDefault();
-        
-        // Create a FormData object to store the file
-        const formData = new FormData();
-        formData.append('image', selectedFile);
-
         try {
-            // Make a POST request to upload the file
-            const response = await axios.post('http://localhost:3001/upload', formData, {
+
+            const response = await fetch('http://localhost:3001/api/gallery/upload', {
+                method: 'POST',
                 headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ title, image })
             });
-            console.log('File uploaded successfully:', response.data);
-            navigate("/");
-             // Redirect to home page after successful upload
+            
+            const data = await response.json();
+            if (response.status  === 400) {
+                alert("post uploaded successfully:");
+            }
+            else
+                navigate("/");
+            console.log(data); // Handle response from the server
         } catch (error) {
-            console.error('Error uploading file:', error);
+            console.error('Error in posting:', error);
         }
     };
-
     return (
         <div>
           <Navigation />
-            <form onSubmit={handleSubmit} encType="multipart/form-data">
-                <input type="file" name="image" accept="image/*" onChange={handleFileChange} />
-                <button type="submit">Upload Image</button>
-            </form>
+          <form onSubmit={handleSubmit}>
+            <input type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
+            <input type="text" placeholder="Image" value={image} onChange={(e) => setImage(e.target.value)} />
+
+            <button type="submit">Post</button>
+        </form>
         </div>
     );
 }

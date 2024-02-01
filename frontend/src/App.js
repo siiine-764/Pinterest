@@ -1,18 +1,14 @@
-
-// import { Add, Chat, FavoriteRounded, Notifications, Person, QuestionMark } from '@mui/icons-material';
-// import Pin from './components/Pin';
 import './App.css';
-// import MenuContainer from './components/MenuContainer';
 import Login from './pages/login/Login';
 import Register from './pages/login/Register';
 import Post from './pages/post/Post';
 import Home from './pages/home/Home';
+import Navigation from './components/Navigation';
+import { AuthProvider } from './contexts/AuthContext';
 // Example using BrowserRouter
 
 import {
-  BrowserRouter,
-  Route,
-  Routes,
+  BrowserRouter , Routes, Route
 } from "react-router-dom";
 
 import React, { useEffect, useState } from 'react';
@@ -33,24 +29,13 @@ function App() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/images') // Adjust the URL based on your backend routes
+    fetch('http://localhost:3001/api/gallery/images') // Adjust the URL based on your backend routes
       .then(response => response.json())
       .then(data => setData(data))
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
 
-
-//   useEffect(() =>{
-//     const allIcon = document.querySelectorAll(".iconContainer");
-    
-//     function setMenuActive(){
-//       allIcon.forEach((n) => n.classList.remove("active"));
-//       this.classList.add("active");
-//     }
-//     allIcon.forEach((n)=> n.addEventListener("click",setMenuActive));
- 
-// }, []);
   return (
     <div className="App">
 
@@ -90,7 +75,20 @@ function App() {
         {/* <Pin data={data} /> */}
       {/* </main> */}
         <div>
+        {/* <AuthProvider>
           <BrowserRouter>
+          <Navigation />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/upload" element={<Post />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider> */}
+
+<AuthProvider>
+<BrowserRouter>
         <Routes>
               {/* <Route path="/" element={<Home />} data={data} /> */}
               <Route path="/" element={<Home data={data} />} />
@@ -99,6 +97,7 @@ function App() {
               <Route path="/upload" element={<Post />} />
         </Routes>
       </BrowserRouter>
+      </AuthProvider>
         </div>
 
 

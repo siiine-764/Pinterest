@@ -8,11 +8,16 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true // Ensure uniqueness of email addresses
     },
+    username: { 
+      type: String, 
+      required: false, 
+      unique: false 
+    },
     password: {
         type: String,
         required: true
     },
-  // Other user fields...
+    profileimage: { type: String }
 });
 
 export default mongoose.model('User', userSchema);

@@ -2,25 +2,22 @@
 import User from "../models/User.js";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-
-// const User = require('../models/User');
-
-// const bcrypt = require('bcryptjs');
-// const jwt = require('jsonwebtoken');
+import mongoose from 'mongoose';
 
 export const registerUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, username, profileimage } = req.body;
 
+  
   try {
       // Check if user already exists
       let user = await User.findOne({ email });
       if (user) {
           return res.status(400).json({ message: 'User already exists' });
       }
-
       // Create a new user
-      user = new User({ email, password });
+      user = new User({ email, password, username, profileimage });
 
+      console.log(user);
       // Hash the password
       const salt = await bcrypt.genSalt(10);
       user.password = await bcrypt.hash(password, salt);
@@ -58,14 +55,27 @@ export const loginUser = async (req, res) => {
   }
 };
 
-export const getUsers = async (req, res, next) => {
-
-    try{
-        const getUser = await User.find({});
-        //Success Responses
-        res.status(200).json(getUser);
-    }catch(err){
-        //Server Error Responses
-        next(err);
+export const getUser = async (req, res) => {
+    try {
+      const userId = req.params.userId;
+  
+      // Validate if userId is a valid MongoDB ObjectId (optional)
+      if (!mongoose.Types.ObjectId.isValid(userId)) {
+        return res.status(400).json({ message: 'Invalid user ID' });
+      }
+  
+      // Find the user by ID in the database
+      const user = await User.findById(userId);
+      console.log(user);
+  
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      // Return the user data
+      res.json(user);
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send('Server Error');
     }
   };

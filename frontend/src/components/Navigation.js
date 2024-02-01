@@ -1,14 +1,11 @@
 // Navigation.js
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
-function Navigation(props) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track authentication status
-  useEffect(() => {
-      // Check authentication status when the component mounts
-      const token = localStorage.getItem('token'); // Assuming you store the authentication token in localStorage
-      setIsLoggedIn(!!token); // Update authentication status based on the presence of the token
-  }, []);
+function Navigation() {
+  const { state } = useAuth();
+  const { user } = state;
   return (
     <nav>
       <ul>
@@ -21,9 +18,12 @@ function Navigation(props) {
         <li>
           <Link to="/register">Register</Link>
         </li>
-        {isLoggedIn ? ( // Conditionally render the link based on authentication status
-                    <li><Link to="/upload">Upload Image</Link></li>
-                ) : null}
+          <li><Link to="/upload">Upload Image</Link></li>
+          {user && (
+          <li>
+            <span>Welcome, {user.email}, {user.username}!</span>
+          </li>
+        )}
       </ul>
     </nav>
   );

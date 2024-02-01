@@ -17,7 +17,7 @@ function App() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/gallery/images') // Adjust the URL based on your backend routes
+    fetch(`${process.env.REACT_APP_BACKEND_API_URL}/api/gallery/images`)
       .then(response => response.json())
       .then(data => setData(data))
       .catch(error => console.error('Error fetching data:', error));

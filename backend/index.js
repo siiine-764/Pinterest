@@ -6,6 +6,9 @@ import authRoutes from "./routes/auth.js";
 import galleryRoutes from './routes/images.js';
 import bodyParser from 'body-parser';
 import cloudinary from 'cloudinary';
+import { config } from 'dotenv';
+config();
+// require('dotenv').config();
 
 const app = express();
 const port = 3001;
@@ -27,7 +30,7 @@ app.use('/api/gallery', galleryRoutes);
 
 
 // MongoDB connection
-mongoose.connect("mongodb+srv://ayacheyassine2000:CwMhkRmGplPQHtCU@cluster0.0qj6qfr.mongodb.net/?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);

@@ -12,8 +12,7 @@ export const getImages = async (req, res, next) => {
       }
     };
 
-export const postImage = async (req, res) => {
-    // res.send('Image uploaded successfully!');
+export const postImages = async (req, res) => {
     const { title, image } = req.body;
     try {
 

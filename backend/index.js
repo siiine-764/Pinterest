@@ -7,8 +7,6 @@ import galleryRoutes from './routes/images.js';
 import bodyParser from 'body-parser';
 import cloudinary from 'cloudinary';
 
-// const cloudinary = require('cloudinary').v2;
-
 const app = express();
 const port = 3001;
 
@@ -30,25 +28,6 @@ app.use('/api/gallery', galleryRoutes);
 
 // MongoDB connection
 mongoose.connect("mongodb+srv://ayacheyassine2000:CwMhkRmGplPQHtCU@cluster0.0qj6qfr.mongodb.net/?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
-
-// Use the images route
-// app.use(imagesRoute);
-
-
-// Multer configuration
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'uploads/');
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname);
-    }
-});
-
-const upload = multer({ storage: storage });
-
-// Express route to handle image upload
-
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);

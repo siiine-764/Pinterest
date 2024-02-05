@@ -33,3 +33,24 @@ export const postImages = async (req, res) => {
         res.status(500).send('Server Error');
         }
 };
+
+
+export const getImage = async (req, res) => {
+    const { query } = req.query;
+    if (!query)
+    {
+        console.log("dddddd");
+    }
+
+
+  try {
+    let results = await Image.find({
+      title: { $regex: query, $options: 'i' },
+    });
+
+    res.json(results);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ error: 'Internal Server Error', message: error.message });
+  }
+  };

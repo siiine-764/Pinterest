@@ -34,6 +34,7 @@ app.use('/api/gallery', galleryRoutes);
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });

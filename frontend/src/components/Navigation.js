@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import '../style/navigation.css'
 import  Brand from '../assets/Pinterest-logo.png'
-import  Menu from '../assets/bars-solid.svg'
 
 const Hamburger = () => (
   <svg
@@ -142,6 +141,7 @@ function Navigation() {
           <Link to="/register">Register</Link>
         </li>
         <li><Link to="/upload">Create</Link></li>
+        <li><Link to="/search">Search</Link></li>
         {user && (
           <li>
             <span>Welcome, {user.email}, {user.username}!</span>

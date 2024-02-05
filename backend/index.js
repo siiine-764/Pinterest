@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from "mongoose";
 import multer from "multer";
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import authRoutes from "./routes/auth.js";
 import galleryRoutes from './routes/images.js';
@@ -19,6 +20,7 @@ cloudinary.config({
   api_secret: process.env.CLOUD_API_SECRET
 });
 
+app.use(cookieParser())
 
 // Enable CORS
 app.use(cors());

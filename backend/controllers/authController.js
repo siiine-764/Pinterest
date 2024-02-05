@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 
+
 export const registerUser = async (req, res) => {
   const { email, password, username, profileimage } = req.body;
 
@@ -33,27 +34,43 @@ export const registerUser = async (req, res) => {
 };
 
 export const loginUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, rememberMe } = req.body;
   try {
-      // Check if user exists
-      const user = await User.findOne({ email });
-      if (!user) {
-          return res.status(400).json({ message: 'Invalid credentials user' });
-      }
+    // Check if user exists
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
 
-      // Validate password
-      const isPasswordValid = await bcrypt.compare(password, user.password);
-      if (!isPasswordValid) {
-          return res.status(400).json({ message: 'Invalid credentials password' });
-      }
+    // Validate password
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
 
-      // Handle successful login
-      res.json({ message: 'Login successful' });
+    // Set token expiration based on "rememberMe" option
+    let expiresIn = '1h'; // Default expiration time
+
+    if (rememberMe) {
+      expiresIn = '7d'; // Token expires in 7 days if "remember me" is selected
+    }
+
+    // If email and password are correct, generate JWT token
+    const token = jwt.sign(
+      { userId: user._id, email: user.email },
+      process.env.JWT, // Change this to a secret key for signing the token
+      { expiresIn }
+    );
+
+    // Send the token in the response
+    res.json({ token });
+
   } catch (error) {
-      console.error('Error logging in:', error);
-      res.status(500).json({ message: 'Server Error' });
+    console.error('Error logging in:', error);
+    res.status(500).json({ message: 'Server Error' });
   }
 };
+
 
 export const getUser = async (req, res) => {
     try {
@@ -72,10 +89,20 @@ export const getUser = async (req, res) => {
         return res.status(404).json({ message: 'User not found' });
       }
   
-      // Return the user data
-      res.json(user);
     } catch (error) {
       console.error(error.message);
       res.status(500).send('Server Error');
     }
   };
+
+
+//   const token = jwt.sign({
+//     id:user._id,
+//     isAdmin:user.isAdmin}, process.env.JWT);
+//   // Return the user data
+
+       
+// const {password, isAdmin, ...otherDetails} = user._doc;
+// res.cookie("access_token", token, {httpOnly: true,})
+// .status(200).json({...otherDetails}); 
+//   res.json(user);

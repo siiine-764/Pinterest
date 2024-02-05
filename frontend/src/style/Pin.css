@@ -35,10 +35,19 @@
   /* 2x6 grid on mobile */
   @media (max-width: 667px) {
     .gallery {
-      grid-template-columns: repeat(2, 1fr);
-      margin: 2rem 2rem;
+      background-color: aquamarine;
+      grid-template-columns: repeat(1, 1fr);
+      margin: 0px;
       grid-gap: 3px;
 
+    }
+
+    .gallery img {
+      width: 60%;
+      /* height: 89%; */
+      padding: 10px;
+      transition: transform 0.3s ease-in-out;
+      transition: opacity 0.5s ease-in;
     }
   }
   
@@ -106,3 +115,9 @@
           margin-right: 2rem;
       }
   }
+
+  /* @media (max-width: 600px) {
+    .gallery {
+      background-color: rebeccapurple;
+    }
+  } */

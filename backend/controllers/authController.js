@@ -34,7 +34,7 @@ export const registerUser = async (req, res) => {
 };
 
 export const loginUser = async (req, res) => {
-  const { email, password, rememberMe } = req.body;
+  const { email, password } = req.body;
   try {
     // Check if user exists
     const user = await User.findOne({ email });
@@ -51,14 +51,14 @@ export const loginUser = async (req, res) => {
     // Set token expiration based on "rememberMe" option
     let expiresIn = '1h'; // Default expiration time
 
-    if (rememberMe) {
-      expiresIn = '7d'; // Token expires in 7 days if "remember me" is selected
-    }
+    // if (rememberMe) {
+    //   expiresIn = '7d'; // Token expires in 7 days if "remember me" is selected
+    // }
 
     // If email and password are correct, generate JWT token
     const token = jwt.sign(
       { userId: user._id, email: user.email },
-      process.env.JWT, // Change this to a secret key for signing the token
+      process.env.JWT_SECRET, // Change this to a secret key for signing the token
       { expiresIn }
     );
 
